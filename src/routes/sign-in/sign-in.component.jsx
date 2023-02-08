@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { getRedirectResult } from "firebase/auth";
 
@@ -23,3 +24,4 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
