@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
   displayName: "",
@@ -11,17 +12,47 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
-  console.log(formFields)
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const password = event.target[2].defaultValue
+    const cPassword = event.target[3].defaultValue
+    const email = event.target[1].defaultValue
+    const displayName = event.target[0].defaultValue
+
+    if(password != cPassword) {
+      alert('Passwords do not match')
+      return
+    }
+
+    if(password.length < 6){
+      alert('Password needs to be at least 6 characters long')
+      return
+    }
+
+    const userAuth = await createAuthUserWithEmailAndPassword(email, password, displayName)
+    
+    
+    console.log(userAuth)
+    const userDocRef = await createUserDocumentFromAuth(userAuth)
+
+    console.log(userDocRef)
+    // confirm that the password matches
+    // see if we have authenticated the user with email and password
+    // then create a user document from what the createAuthUser returns
+    // Make sure to pass display name when generating the document
+
+  }
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(event);
     setFormFields({...formFields, [name]: value})
   };
 
   return (
     <div>
       <h1>Sign up with your email and password</h1>
-      <form onSubmit={() => {}}>
+      <form onSubmit={handleSubmit}>
         <label>Display Name</label>
         <input type="text" required onChange={handleChange} name="displayName" value={displayName} />
 
