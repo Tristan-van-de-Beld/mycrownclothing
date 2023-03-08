@@ -1,8 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithRedirect,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,10 +24,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
-
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
-
   prompt: "select_account",
 });
 
@@ -29,20 +34,17 @@ export const auth = getAuth();
 export const signInWIthGooglePopup = () => signInWithPopup(auth, googleProvider);
 export const signInWIthGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
-
-
-export const db =getFirestore();
-
+export const db = getFirestore();
 
 export const getUserSnapshot = async (user) => {
-  const userDocRef = doc(db, 'users', user.uid)
-  const userSnapshot = await getDoc(userDocRef)
-  return userSnapshot
-}
+  const userDocRef = doc(db, "users", user.uid);
+  const userSnapshot = await getDoc(userDocRef);
+  return userSnapshot;
+};
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
-  if(!userAuth) return;
-  const userDocRef = doc(db, 'users', userAuth.uid);
+  if (!userAuth) return;
+  const userDocRef = doc(db, "users", userAuth.uid);
 
   console.log(userDocRef);
 
@@ -50,7 +52,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
   console.log(userSnapshot);
   console.log(userSnapshot.exists());
 
-  if(!userSnapshot.exists()){
+  if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
@@ -58,23 +60,24 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
         displayName,
         email,
         createdAt,
-        ...additionalInformation
-      })
-    } catch(error){
-      console.log('error creating the user', error.message)
+        ...additionalInformation,
+      });
+    } catch (error) {
+      console.log("error creating the user", error.message);
     }
   }
 
   return userDocRef;
-}
+};
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if(!email || !password) return;
+  if (!email || !password) return;
 
-   const userAuth = await createUserWithEmailAndPassword(auth, email, password);
-   return userAuth
+  const userAuth = await createUserWithEmailAndPassword(auth, email, password);
+  return userAuth;
+};
 
-}
-
-
-export const signInWithEmailAndPasswordFireBase = (email, password) =>  signInWithEmailAndPassword(auth, email, password)
+export const signInWithEmailAndPasswordFireBase = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
+};
