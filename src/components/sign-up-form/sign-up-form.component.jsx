@@ -4,7 +4,7 @@ import FormInput from "../form-input/form-input.component";
 
 import { UserContext } from "../../contexts/user.context";
 
-import './sign-up-form.styles.scss'
+import {SignUpContainer} from './sign-up-form.styles.jsx'
 import Button from "../button/button.component";
 
 
@@ -59,7 +59,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -72,7 +72,7 @@ const SignUpForm = () => {
         <FormInput label="Confirm Password" type="text" required onChange={handleChange} name="confirmPassword" value={confirmPassword} />
         <Button type="submit">Sign Up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 export default SignUpForm;
