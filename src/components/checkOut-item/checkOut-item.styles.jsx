@@ -1,5 +1,7 @@
-.checkout-item-container {
-    width: 100%;
+import styled from "styled-components";
+
+export const CheckOutItemContainer = styled.div`
+  width: 100%;
     display: flex;
     min-height: 100px;
     border-bottom: 1px solid darkgrey;
@@ -38,5 +40,6 @@
       padding-left: 12px;
       cursor: pointer;
     }
-  }
+`
+
   
